@@ -7,8 +7,9 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 import lms.hackathon.ui.configs.ConfigLoader;
 //@RunWith(Cucumber.class)
-@CucumberOptions(features = "src/test/resources/features",
-					glue = {"com.lms.ui.stepdefinitions"},
+@CucumberOptions(   tags=("@tag35"),
+		            features = "src/test/resources/features",
+					glue = {"lms.hackathon.ui.stepdefinitions"},
 				 // tags= "@LinkedList",
 					plugin = {"pretty", "html:target/cucumber-Reports.html" , "json:target/cucumber.json",
 							"junit:target/Cucumber.xml",
