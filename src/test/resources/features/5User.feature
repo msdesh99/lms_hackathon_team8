@@ -101,6 +101,7 @@ Scenario: Click No on deletion window
     Given Admin is on Confirm Deletion alert
     When Admin clicks  No option
     Then Admin can see the deletion alert disappears without deleting
+    
 
 # ***********************BY Sayali ***************************************8 
 @tag1E
