@@ -5,7 +5,11 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>lms_hackathon_ui</name>
   <description>lms hackathon ui Apr 2024</description>
-  
+  <properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>20</maven.compiler.source>
+		<maven.compiler.target>20</maven.compiler.target>
+	</properties>
   <dependencies>
   <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
 <dependency>
