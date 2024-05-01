@@ -26,19 +26,15 @@ public class FilloExcel {
 		//String query = String.format("Select * from %s Where run like '%s'", sheetName, multiRun);
 
 		try {
-			//System.out.println("filename fill: "+fileName);
-			//System.out.println("query fill: "+query);
 			connection = fillo.getConnection(fileName);
 			Recordset recordSet = connection.executeQuery(query);
 
 			while(recordSet.next()) {
 				dataMap = new HashMap<String,String>();
 				for(String field: recordSet.getFieldNames()) {
-					//System.out.println("Record: Name: "+ field +" Value: "+recordSet.getField(field));
 					dataMap.put(field, recordSet.getField(field));
 				}
 				dataMapList.add(dataMap);
-				//recordSet.next();
 			}
 		}catch(Exception e) {
 			System.out.println("Error in FilloExcel\n"+e);
@@ -50,17 +46,13 @@ public class FilloExcel {
 		Fillo fillo = new Fillo();
 		String query = String.format("Select * from %s Where run = '%s'", sheetName, runType);
 		try {
-			//System.out.println("filename fill: "+fileName);
-			//System.out.println("query fill: "+query);
 			connection = fillo.getConnection(fileName);
 			Recordset recordSet = connection.executeQuery(query);
 
 			while(recordSet.next()) {
 				for(String field: recordSet.getFieldNames()) {
-					//System.out.println("Record: Name: "+ field +" Value: "+recordSet.getField(field));
 					dataMap.put(field, recordSet.getField(field.trim()));
 				}
-				//dataMapList.add(dataMap);
 			}
 		}catch(Exception e) {
 			System.out.println("Error in FilloExcel\n"+e);

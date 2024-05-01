@@ -101,14 +101,14 @@ Scenario: Click No on deletion window
     Given Admin is on Confirm Deletion alert
     When Admin clicks  No option
     Then Admin can see the deletion alert disappears without deleting
-    
+
 
 # ***********************BY Sayali ***************************************8 
-@tag1E
-Scenario: Admin should see the +Add New User popup
-Given Admin is on Manage User page
-When Admin clicks "Add New User" button
-Then Admin should able to see "Add New User" popup
+#@tag1E
+#Scenario: Admin should see the +Add New User popup
+#Given Admin is on Manage User page
+#When Admin clicks "Add New User" button
+#Then Admin should able to see "Add New User" popup
 
 @tag18
 Scenario: Validate User Details Popup Window

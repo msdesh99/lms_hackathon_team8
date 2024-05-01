@@ -33,7 +33,7 @@ public class Base {
 			} else if (browser.equalsIgnoreCase("chrome")) {
 				LoggerLoad.info("Testing on chrome");
 				ChromeOptions ChromeOpt = new ChromeOptions();
-			//	ChromeOpt.addArguments("--headless=new");
+				ChromeOpt.addArguments("--headless=new");
 			//	System.setProperty("webdriver.chrome.silentOutput","true");
 				//driver = new ChromeDriver();
 				driver = new ChromeDriver(ChromeOpt);
@@ -51,10 +51,8 @@ public class Base {
 			//driver = new ChromeDriver();
 			driver.manage().window().maximize();
 			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(40));
-
-			//  driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 			// Set Page load timeout
-		//	driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
+		   //driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
 			driver.get(configs.getUrl());
 		}
 		return driver;
@@ -72,6 +70,7 @@ public class Base {
 		    //configs.setBrowser(prop.getProperty("browser"));
 			configs.setUserName(prop.getProperty("userName"));
 			configs.setPassword(prop.getProperty("password"));		
+			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

@@ -44,8 +44,6 @@ public class UserSteps {
 	
 	@Given("Admin is on Manage User page")
 	public void admin_is_on_manage_user_page() throws InterruptedException {
-		//System.out.println("handle");
-		//userPage.getHandle();
 	}
 	@When("Admin clicks {string} button")
 	public void admin_clicks_button(String button) throws InterruptedException {
@@ -55,25 +53,6 @@ public class UserSteps {
 	public void admin_should_able_to_see_popup(String validateButton) {
 	    
 	}
-	/*
-	@Then("Admin should able to see all {string}")
-	public void admin_should_able_to_see_all(String listType, DataTable dataTable) {
-		List<String> expectedList = dataTable.asList(String.class);
-        List<String> actualList = new ArrayList<String>();
-		
-        if(listType.contains("Fields"))
-			 actualList =  userPage.validatePopUp();
-		if(listType.contains("TextBoxes"))
-			actualList = userPage.validateTextBoxes();			
-		
-		List<String> absentText = actualList.stream()
-  					.filter(s->!expectedList.contains(s))
-  					.collect(Collectors.toList());
-		if(absentText.size()==0) System.out.println("Sceanrio for validation of DropDown boxes is PASSED");
-		for(String absent: absentText)
-				System.out.println("absent: "+absent);
-		//Assert.assertEquals(absentText.size(),0,"Some Fields are missing in popup window");		
-	}*/
 	@Given("Admin is on  {string} popup window")
 	public void admin_is_on_popup_window(String button) {
 		try {
@@ -88,8 +67,7 @@ public class UserSteps {
 		if(runType.matches("update.*")) 
 			userPage.updateUser(runType,actionType);
 		else
-		   userPage.addUser(runType,actionType);
-		
+		   userPage.addUser(runType,actionType);		
 	}
 	
 	@Then("Admin checks {string} in the form")
@@ -102,14 +80,11 @@ public class UserSteps {
   	   dataMap = FilloExcel.getSingleData(fileName,sheetName,"userdetailsfields");
 
   	   List<String> actualList = new ArrayList<String>();
-  	   //List<String> dropList = new ArrayList<String>();
        Map<String,String> actualMap = new HashMap<String,String>();
     	 if(runType.contains("userdetailsfields") ||
     			 runType.contains("dropdowns")) {
-             // actualList =  userPage.validatePopUp();
               actualMap = userPage.isPopUpDisplayed(runType);
     	 }       	 
-    	// else actualList = userPage.validateTextBoxes();
     	 else actualMap = userPage.isTextBoxedisplay();
         for(Map.Entry<String, String> map: actualMap.entrySet()) {
           if(map.getKey()!=null)	{
@@ -119,15 +94,7 @@ public class UserSteps {
           }	
         }
     	 
-  	  /* for(String box: actualList){
-  		  // System.out.println("act: "+box);
-  		   //System.out.println("expe: "+ dataMap.get(box));
-	    System.out.println("Actual: "+box +" Expected: "+dataMap.get(box));
-        
-  	   Assert.assertTrue(box.equalsIgnoreCase(dataMap.get(box)));
-  	   }*/
-  	   Thread.sleep(1000);
-		//userPage.addUser(runType,"NoAction");
+     Thread.sleep(1000);
 	}
 
 

@@ -124,66 +124,22 @@ public void addIntoMap(List<WebElement> listPopup) {
 	 for(WebElement textbox: listPopup) {
     	popupMap.put(textbox.getText(), 
     			textbox.isDisplayed()?"true":"false");
-    	//System.out.println("add: "+textbox.getText()+"dis: "+textbox.isDisplayed());
     }    	 
 }
 
-/*
-    public List<String> validatePopUp() {
-        driver.switchTo().window(driver.getWindowHandle());
-    
-    	    List<WebElement> popupList = driver.findElements(addUserPopupfields);
-    	    List<WebElement> popupBtn = driver.findElements(popUpButton);
-    	    List<WebElement> popupDrop = driver.findElements(popupDropdown);
-    	    
-            popupTextBox = new ArrayList<String>();
-            
-            addIntoList(popupList);
-    	    addIntoList(popupDrop);
-    	    
-    	    popupTextBox.add(driver.findElement(emailField).getAttribute("placeholder"));
-    	    addIntoList(popupBtn);
-            
-    	    //popupTextBox.add(driver.findElement(closeIcon).getText());
-    	    return popupTextBox;
-    	
-    }	
-    public void addIntoList(List<WebElement> listPopup) {
-   	 for(WebElement textbox: listPopup) {
-	    	popupTextBox.add(textbox.getText());
-	    	System.out.println("add: "+textbox.getText());
-	    }    	 
-   }
-    */
     public Map<String,String> isTextBoxedisplay(){
     	driver.switchTo().window(driver.getWindowHandle());
         List<WebElement> textBoxList = driver.findElements(textBoxes);
-       // popupTextBox = new ArrayList<String>();
         popupMap = new HashMap<String,String>();
 
 
         for(WebElement box: textBoxList) {
         	popupMap.put(box.getAttribute("data-placeholder"),
         			box.isDisplayed()?"true":"false");
- 	    	//popupTextBox.add(box.getAttribute("data-placeholder"));
- 	    	//System.out.println("Is textBox Display: "+box.getAttribute("data-placeholder")+" : "+
- 	    	//box.isDisplayed());
         }
         return popupMap;
     }
-    /*
-    public List<String> validateTextBoxes(){
-    	driver.switchTo().window(driver.getWindowHandle());
-        List<WebElement> textBoxList = driver.findElements(textBoxes);
-        popupTextBox = new ArrayList<String>();
-
-        for(WebElement box: textBoxList) {
- 	    	popupTextBox.add(box.getAttribute("data-placeholder"));
- 	    	System.out.println("Is textBox: "+box.getAttribute("data-placeholder")+" : "+box.getTagName());
-        }
-        return popupTextBox;
-    }*/
-    public void clickClose() {
+     public void clickClose() {
     	driver.findElement(closeIcon).click();   	
     }
     public void addUser(String runType, String actionType) throws InterruptedException {
@@ -192,7 +148,6 @@ public void addIntoMap(List<WebElement> listPopup) {
     		   runType.contains("without data")) 	{
     		clickSubmit(actionType);
     		validateAllTextFieldForError();
-    		//validateTextField(dataMap);
        }		
  
        else if(runType.matches("user mandatory fields.*")) {
@@ -209,33 +164,9 @@ public void addIntoMap(List<WebElement> listPopup) {
     	   Thread.sleep(1000);
     	   
     	   clickSubmit(actionType);
-          // validateTextField(dataMap);
-
-    	//  WebElement activeElement = driver.switchTo().activeElement();
-    	  //driver.switchTo().window(driver.getWindowHandle());
-    	/*   Thread.sleep(1000);
-    	  WebElement ele = driver.switchTo().activeElement();
-	    	 System.out.println("active ele: "+ ele.getText()); //+" id: "+ele.getAttribute("id")+"tag : "+ele.getTagName());
-              String[] lines = ele.getText().split("\\r?\\n");
-	    	 System.out.println("arr leng: "+lines.length);
-	    	 for(String msg: lines) {
-	    		 if(msg.matches("Failed.*")) 
-	    			 System.out.println("msg: "+ msg);
-	    		 else if(msg.matches("Success.*"))
-    			    System.out.println("msg: "+ msg);
-*/
-	    		 
+  	    		 
 	    	 }
-    	  //List<WebElement> allEle = driver.findElements(By.tagName("button"));
-    	  //System.out.println("butt cont: "+allEle.size());
-    	    // for(WebElement ele: allEle){
-    	    	// System.out.println("ele: "+ ele.getText()+" id: "+ele.getAttribute("id")+"tag : "+ele.getTagName());
-    	    // }
-     	 // System.out.println("Error Message: "+ activeElement.);
-     	  //System.out.println(activeElement.getTagName()+ "text: "+ activeElement.getText());
-     	  //System.out.println("att: "+activeElement.getAttribute("value"));
-
-       
+        
        else if(runType.contains("invalid data")) {
     	   
     	   String fileName = System.getProperty("user.dir")+"/src/test/resources/testdata/usertestdata.xlsx";
@@ -245,7 +176,6 @@ public void addIntoMap(List<WebElement> listPopup) {
     	   sendDataToTextBoxes(dataMap);  
     	   Thread.sleep(1000);
     	   
-    	  // sendDataToDropDown(dataMap);
     	   sendDropDown(dataMap);
     	   Thread.sleep(1000);
     	   
@@ -262,7 +192,6 @@ public void addIntoMap(List<WebElement> listPopup) {
        		String sheetName ="UserSheet";
        		dataMap = FilloExcel.getSingleData(fileName,sheetName,"user mandatory fields");
        		
-       		//readDataFromDataMap(dataMap);
        }
        else if(runType.contains("skip text%")){
        	String fileName = System.getProperty("user.dir")+"/src/test/resources/testdata/usertestdata.xlsx";
@@ -314,8 +243,6 @@ public void addIntoMap(List<WebElement> listPopup) {
         		   }
         		    Thread.sleep(1000);
             		clickClose();
-            		//selectEditUser();
-            		//break;           	   
         }
           //else if(runType.contentEquals("update all fields")) {
           else if(runType.matches("update all.*")) { 
@@ -345,7 +272,6 @@ public void addIntoMap(List<WebElement> listPopup) {
     }
     public void selectEditUser() {	
     	List<WebElement> editList =  driver.findElements(editButton);
-       //	System.out.println("edit: "+ editList.size());
        	for(WebElement editEle: editList) {
        		editEle.click();
        		break;
@@ -353,30 +279,17 @@ public void addIntoMap(List<WebElement> listPopup) {
     	
     }
     public String[] getActualMessage() throws InterruptedException {
-    	//String messageHeading;
-    	//String actualMessage;
     	   Thread.sleep(1000);
-    	  // Successful
-    	   //User Added Successfully
     	WebElement ele = driver.switchTo().activeElement();
-	    	// System.out.println("active ele: "+ ele.getText()); //+" id: "+ele.getAttribute("id")+"tag : "+ele.getTagName());
              String[] actMsg = new String[2];
 	    	 String[] lines = ele.getText().split("\\r?\\n");
-	    	// System.out.println("arr leng: "+lines.length);
 	    	 for(String msg: lines) {
 	    		 if(msg.matches("Failed") || msg.matches("Successful")) {
-	    			// System.out.println("msg: "+ msg);
-	    			// messageHeading = msg;
 	    			 actMsg[0]= msg;
 	    		 }
 	    		 if(msg.matches("Failed.*") || msg.matches(".*Success.*")) {
-	    			 //System.out.println("msg: "+ msg);
-	    			 //actualMessage = msg;
 	    			 actMsg[1] = msg;
 	    		 }
-	    		/* else if(msg.matches("Success.*"))
-			    System.out.println("msg: "+ msg);
-	  			return msg;*/
 	    	 }	 
          return actMsg;			
     }
@@ -386,9 +299,6 @@ public void addIntoMap(List<WebElement> listPopup) {
     	System.out.println("Expected Message: "+ dataMap.get("message"));
     	System.out.println("Actual Detail Message : "+ actual[1]);
     	Assert.assertTrue(dataMap.get("message").matches(".*"+actual[0]+".*"));
-    	
-    	//System.out.println("first NAme: "+ dataMap.get("First name"));
-    	//String firstName = dataMap.get("First name");
     	
     	if(dataMap.get("First name").matches("134")) {
     	   System.out.println("Expected Message: userFirstName must contain two or more alphabets only");
@@ -403,38 +313,6 @@ public void addIntoMap(List<WebElement> listPopup) {
 		Assert.assertTrue(validate().matches(".*Manage User.*"));
     }
 
-  /*  
-    public void sendDataFromMap(Map<String,String> dataMap, String blankField) throws InterruptedException {
-    	List<WebElement> textBoxList = driver.findElements(textBoxes);
-    	for(WebElement inputField: textBoxList) {
-    		inputField.clear();
-    		String placeHolderField = inputField.getAttribute("data-placeholder");
-    	 if(!(placeHolderField.contains(blankField))) {
-    		inputField.sendKeys(dataMap.get(placeHolderField));
-    	 }	
-    	}   
-		//sendDataToDropDown(dataMap);
- 		clickSubmit("Submit");
- 		Thread.sleep(3000);
- 		clickClose();
-		driver.findElement(addUserButton).click();
-    } 
-    public void readDataFromDataMap(Map<String,String> dataMap) throws InterruptedException {
-    	for(Map.Entry<String, String> map: dataMap.entrySet()) {
-    	  if(!(map.getKey().contains("run") || 
-    		   map.getKey().contains("User Role") ||
-    		   map.getKey().contains("User Role Status") ||
-    		   map.getKey().contains("User Visa Status") ||
-    		   map.getKey().contains("message"))) 
-    			  {
-      		System.out.println("key: "+map.getKey()+ "Valu: "+map.getValue());
-      		Thread.sleep(2000);
-           	sendDataFromMap(dataMap, map.getKey());  
-
-           	Thread.sleep(2000);
-    	}
-    	}
-    }*/
     public void sendDataToTextBoxes(Map<String,String> dataMap) {
     	List<WebElement> textBoxList = driver.findElements(textBoxes);
     	for(WebElement inputField: textBoxList) {
@@ -476,35 +354,6 @@ public void addIntoMap(List<WebElement> listPopup) {
                 Thread.sleep(1000);
            }
       }
- /*  
-    public void sendDataToDropDown(Map<String,String> dataMap) throws InterruptedException {
-    	//private By roleClick =  By.xpath("//div//label[text()='User Role']//..//div[@role='button']");
-    	String dropdownType="";
-    	List<WebElement> allDropdownList = driver.findElements(allDropDown);
-           for(WebElement dropText: allDropdownList) {
-        	    dropdownType =  dropText.getText();
-                driver.findElement(By.xpath("//div//label[text()='"+dropdownType+"']//..//div[@role='button']")).click();
-               List<WebElement> menuList = driver.findElements(By.xpath("//ul[@role='listbox']//span"));
-               
-               // By locSpan = By.xpath("//ul[@role='listbox']//span");
-                //List<WebElement> menuList  = 
-                		new WebDriverWait(driver,Duration.ofSeconds(4))
-                       .until(ExpectedConditions.visibilityOfAllElements(menuList));
-                    		   //visibilityOfAllElementsLocatedBy((locSpan));
-                for(WebElement dropdown: menuList) {  
-             		if(dropdown.getText().contains(dataMap.get(dropdownType))) {
-              		 By locator	= By.xpath("//ul[@role='listbox']//span[contains(text(),'"
-              				 +dataMap.get(dropdownType)+"')]");
-              		 new WebDriverWait(driver,Duration.ofSeconds(5))
-              		     .until(ExpectedConditions.visibilityOfElementLocated(locator)).click();
-                  		Thread.sleep(3000);
-            			dropdown.click();
-              		}          		
-            	}
-                Thread.sleep(1000);
-           }
-      }
-    */
     public void clickSubmit(String actionType) {
     	List<WebElement> popupButton = driver.findElements(popUpButton);
     	for(WebElement buttonElement: popupButton) {
@@ -523,7 +372,6 @@ public void addIntoMap(List<WebElement> listPopup) {
 
 
     	  System.out.println("Actual Error: "+errorEle.getText());
-    	//System.out.println("Expected Error: "+dataMap.get("message"));
     	}
     } 
     public void validateTextField(Map<String,String> dataMap) {
@@ -532,7 +380,6 @@ public void addIntoMap(List<WebElement> listPopup) {
     	
     	System.out.println("Expected Error: "+dataMap.get("message")+ " Actual Error: "+error.getText());
     	System.out.println("Expected Text Color: "+dataMap.get("text color") +" Actual Color: "+ Color.fromString(color).asHex());
-       // Assert.assertTrue(dataMap.get("message").matches(error.getText()));
         Assert.assertTrue(dataMap.get("message").matches(".*is required.*"));
 
         Assert.assertTrue(dataMap.get("text color").matches(Color.fromString(color).asHex()));
