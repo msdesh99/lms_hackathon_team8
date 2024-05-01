@@ -214,6 +214,151 @@ public class UserSteps {
 			Assert.assertEquals(userPage.validateStudentStatusdisplay(), true);			
 	}
 
+	@Then("Admin should see drop down boxes with valid datas for Student Email id,Program Name & Batch Name")
+	public void admin_should_see_drop_down_boxes_with_valid_datas_for_student_email_id_program_name_batch_name() throws InterruptedException {
+		Thread.sleep(3000);
+	    userPage.validatePopupStudentEmail();//need to add code for dropdown selection
+	}
+	@Then("Admin should see a pop up open for assign staff details with empty form along with Save and Cancel button")
+	public void admin_should_see_a_pop_up_open_for_assign_staff_details_with_empty_form_along_with_save_and_cancel_button() {
+	    userPage.validateAssignStaffPopUp();
+	    Assert.assertEquals(userPage.validatePopUpSavebtn(), true);
+	    Assert.assertEquals(userPage.validatePopUpClosebtn(), true);
+	    Assert.assertEquals(userPage.validatePopUpCancelbtn(), true);    
+	}
+	@Then("Admin should see User Role as R02 with other mandatory fields")
+	public void admin_should_see_user_role_as_r02_with_other_mandatory_fields() throws InterruptedException {
+         Assert.assertEquals(userPage.validatepopUpstaffRoleId(), true);	
+         //code to check RO2 in roleID
+		Assert.assertEquals(userPage.validatepopUpstaffemail(), true);
+		Assert.assertEquals(userPage.validatepopUpstaffprogram(), true);
+		Assert.assertEquals(userPage.validatepopUpstaffBatch(), true);
+		Assert.assertEquals(userPage.validatepopUpstaffRadio(), true);
+		Assert.assertEquals(userPage.validatepopUpstaffskill(), true);
+		
+	 // userPage.validateAssignStaffPopUpFields();
+	}
+	@Then("Admin should see drop down boxes with valid datas for Student Email id,Program Name and Batch Name")
+	public void admin_should_see_drop_down_boxes_with_valid_datas_for_student_email_id_program_name_and_batch_name() {
+	    //userPage.validatepopUpstaffemail();
+		//code to check dropdown data for email,program and batch 
+		Assert.assertEquals(userPage.validatepopUpstaffemail(), true);
+		Assert.assertEquals(userPage.validatepopUpstaffprogram(), true);
+		Assert.assertEquals(userPage.validatepopUpstaffBatch(), true);
+	}
+
+//------------------------------------------------
+	@Given("Admin is in Assign Student details pop up page")
+	public void admin_is_in_assign_student_details_pop_up_page() throws InterruptedException {
+		//String userName = testContextSetUp.base.configs.getUserName();
+	    //String password = testContextSetUp.base.configs.getPassword();
+	   // userPage.login(userName, password);
+	    //userPage.navigate();
+	    userPage.navigateAssignStudent();	    
+	}
+	@When("Admin clicks {string} button without entering any data")
+	public void admin_clicks_button_without_entering_any_data(String string) throws InterruptedException {
+		userPage.AssignSave();
+	}
+	@Then("Admin gets a Error message alert")
+	public void admin_gets_a_error_message_alert() throws InterruptedException  {
+	     //userPage.AssignStudentErrorMessage();
+			Assert.assertEquals(userPage.ValidateEmptyEmail(), true);
+			Assert.assertEquals(userPage.ValidateEmptyProgram(), true);
+			Assert.assertEquals(userPage.ValidateEmptyBatch(), true);
+			Assert.assertEquals(userPage.ValidateEmptyStatus(), true);
+	}
+	@When("Admin clicks <Close>button on assign student form")
+	public void admin_clicks_close_button_on_assign_student_form() throws InterruptedException {
+		Thread.sleep(1000);
+	     userPage.AssignStudentClose();
+	     Thread.sleep(2000);
+	}
+	@Then("Assign Student popup window should be closed without saving")
+	public void assign_student_popup_window_should_be_closed_without_saving() throws InterruptedException {
+		Assert.assertTrue(userPage.validate().matches(".*Manage User.*"));
+	}
+	@When("Admin clicks <Cancel>button")
+	public void admin_clicks_cancel_button() throws InterruptedException {
+	     userPage.AssignStudentCancel();   
+	}
+	 
+	@Then("Admin can see the Assign Student popup disappears without assigning")
+	public void admin_can_see_the_assign_student_popup_disappears_without_assigning() throws InterruptedException
+	{
+		Assert.assertTrue(userPage.validate().matches(".*Manage User.*"));
+	}
+	@When("Admin clicks {string} button without entering Student Email id")
+	public void admin_clicks_button_without_entering_student_email_id(String string) throws InterruptedException {
+		userPage.AssignSave();
+	}
+	@Then("Admin gets a Error as {string}")
+	public void admin_gets_a_error_as(String string) {
+	    userPage.validatetextofemail();
+	}
+	@Given("Admin is in Assign Staff details pop up page")
+	public void admin_is_in_assign_staff_details_pop_up_page() throws InterruptedException {
+		//String userName = testContextSetUp.base.configs.getUserName();
+	   // String password = testContextSetUp.base.configs.getPassword();
+	    //userPage.login(userName, password);
+	    //userPage.navigate();
+	    userPage.navigateAssignStaff();	
+	    }
 	
+	@When("Admin clicks {string} button without any data on Assign staff page")
+	public void admin_clicks_button_without_any_data_on_assign_staff_page(String string) throws InterruptedException {
+		userPage.AssignSave();
+	}
+	
+	@Then("Admin gets a Error message")
+	public void admin_gets_a_error_message() {
+		
+		Assert.assertEquals(userPage.ValidateEmptyStaffEmailMessage(), true);
+		Assert.assertEquals(userPage.ValidateEmptyStaffProgramMessage(), true);
+		Assert.assertEquals(userPage.ValidateEmptyStaffBatchMessage(), true);
+//		Assert.assertEquals(userPage.validatepopUpstaffskill(), true);
+		Assert.assertEquals(userPage.ValidateEmptyStaffStatusMessage(), true);
+	}
+
+	@When("Admin clicks {string} button without entering staff Email id")
+	public void admin_clicks_button_without_entering_staff_email_id(String string) throws InterruptedException {
+		userPage.InputSkill();
+		userPage.AssignSave();
+	}
+
+	@Then("Admin gets a Error message as {string}")
+	public void admin_gets_a_error_message_as(String string) {
+		Assert.assertEquals(userPage.ValidateEmptyStaffEmailMessage(), true);
+	}
+	
+
+	@When("Admin clicks the delete icon")
+	public void admin_clicks_the_delete_icon() throws InterruptedException {
+		userPage.ClickRowleveldelete();
+	}
+	@Then("Admin should see a alert open with heading {string} along with  <YES> and <NO> button for deletion")
+	public void admin_should_see_a_alert_open_with_heading_along_with_yes_and_no_button_for_deletion(String string) {
+	    userPage.validterowleveldeleteconfirmPopUp();
+		Assert.assertEquals(userPage.validateDeleteYes(), true);
+		Assert.assertEquals(userPage.validateDeleteNo(), true);
+	}
+	@Given("Admin is on Confirm Deletion alert")
+	public void admin_is_on_confirm_deletion_alert() throws InterruptedException {
+		//String userName = testContextSetUp.base.configs.getUserName();
+	    //String password = testContextSetUp.base.configs.getPassword();
+	    //userPage.login(userName, password);
+		userPage.navigate();
+		userPage.ClickRowleveldelete();	    
+	}
+	@When("Admin clicks  No option")
+	public void admin_clicks_no_option() throws InterruptedException {
+		userPage.ConfirmrowleveldeletePopUpNoBtn();	    
+	}
+	@Then("Admin can see the deletion alert disappears without deleting")
+	public void admin_can_see_the_deletion_alert_disappears_without_deleting() {
+		Assert.assertTrue(userPage.validate().matches(".*Manage User.*"));  
+		
+	}
+
 
 }

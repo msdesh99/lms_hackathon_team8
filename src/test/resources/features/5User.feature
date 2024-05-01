@@ -25,6 +25,83 @@ Given Admin is on Manage User page
 When Admin clicks "Assign Student" button
 Then Admin should see User Role as R03 with other mandatory fields
 
+@tag51
+Scenario: Validate Dropdown in Assign Student Form 
+ Given Admin is on Manage User page
+ When Admin clicks "Assign Student" button
+ Then Admin should see drop down boxes with valid datas for Student Email id,Program Name & Batch Name
+
+@tag52
+   Scenario: Validate Assign Staff Popup window
+    Given Admin is on Manage User page
+    When Admin clicks "Assign Staff" button
+    Then Admin should see a pop up open for assign staff details with empty form along with Save and Cancel button 
+
+@tag53  
+    Scenario: Validate input fields and their text boxes in Assign Staff form 
+    Given Admin is on Manage User page
+    When Admin clicks "Assign Staff" button
+    Then Admin should see User Role as R02 with other mandatory fields
+    
+@tag54
+    Scenario: Validate radio button in Assign Staff Form
+    Given Admin is on Manage User page
+    When Admin clicks "Assign Staff" button
+    Then Admin should see two radio button for Status
+    
+@tag55 
+    Scenario: Validate Dropdown in Assign Staff Form
+    Given Admin is on Manage User page
+    When Admin clicks "Assign Staff" button
+    Then Admin should see drop down boxes with valid datas for Student Email id,Program Name and Batch Name 
+    
+@tag56
+ Scenario: Empty Form Submission
+    Given Admin is in Assign Student details pop up page
+    When Admin clicks "Save" button without entering any data
+    Then Admin gets a Error message alert  
+@tag57
+	    Scenario: Validate Cancel/Close(X) icon on Assign Student form
+	    Given Admin is in Assign Student details pop up page
+	    When Admin clicks <Close>button on assign student form
+	    Then Assign Student popup window should be closed without saving 
+
+@tag58	 
+	    Scenario: Validate Cancel button on Assign Student form
+	    Given Admin is in Assign Student details pop up page
+	    When Admin clicks <Cancel>button 
+	    Then Admin can see the Assign Student popup disappears without assigning
+	     
+@tag59
+  Scenario: Validate the Assign Student form page without giving Student Email id
+    Given Admin is in Assign Student details pop up page
+    When Admin clicks "Save" button without entering Student Email id
+    Then Admin gets a Error as "Student Email id is required"   
+  
+@tag60
+   Scenario: Empty Form Submission
+    Given Admin is in Assign Staff details pop up page
+    When Admin clicks "Save" button without any data on Assign staff page
+    Then Admin gets a Error message 
+    
+@tag61   
+Scenario: Validate the Assign Staff form page without giving Student Email id
+    Given Admin is in Assign Staff details pop up page
+    When Admin clicks "Save" button without entering staff Email id
+    Then Admin gets a Error message as "Staff Email id is required" 
+
+@tag62
+  Scenario: Validate row level delete icon
+    Given Admin is on Manage User page
+    When Admin clicks the delete icon
+    Then Admin should see a alert open with heading "Confirm" along with  <YES> and <NO> button for deletion
+
+@tag63
+Scenario: Click No on deletion window
+    Given Admin is on Confirm Deletion alert
+    When Admin clicks  No option
+    Then Admin can see the deletion alert disappears without deleting
+
 # ***********************BY Sayali ***************************************8 
 @tag1E
 Scenario: Admin should see the +Add New User popup
@@ -214,3 +291,6 @@ Then Admin should see User details are sorted by "Location" column "3"
 #Given Admin is on Manage User page
 #When Admin clicks "Assign Student" button
 #Then Admin should able to see "Assign Student" popup
+
+###############Sayali###########################
+

@@ -51,8 +51,22 @@ public class UserPage {
 	private By popUpStudentBatch = By.xpath("//input[@id='batchName']");
 	private By popUpStudentRadio = By.xpath("//div[@class='radio']");
 	private By popUpStaffskill = By.xpath("//input[@id='skillName']");
-    
+	private By assignStaff = By.xpath("//span[contains(text(),'Assign Staff')]");
 	
+	private By rowleveldeleteicon = By.xpath("/html/body/app-root/app-user/div/mat-card/mat-card-content/p-table/div/div[1]/table/tbody/tr[3]/td[6]/div/span/button[2]");
+	private By rowleveldeletePopUpYesBtn = By.xpath("/html/body/app-root/app-user/div/p-confirmdialog/div/div/div[3]/button[2]/span[1]");
+	private By rowleveldeletePopUpNoBtn = By.xpath("//div/div/div[3]/button[1]/span[2]");
+	//*****************Empty****************
+	  private By emptyemailmessage = By.xpath("/html/body/app-root/app-user/div/p-dialog[3]/div/div/div[2]/form/div[2]/div");
+	    private By emptyemailstaffmessage = By.xpath("/html/body/app-root/app-user/div/p-dialog[2]/div/div/div[2]/form/div[2]/div");
+	    private By emptyprogmessage = By.xpath("/html/body/app-root/app-user/div/p-dialog[3]/div/div/div[2]/form/div[3]/div");
+	    private By emptyprogramstaffmessage = By.xpath("//div/div/div[2]/form/div[4]/div");
+	    private By emptybatchmessage = By.xpath("/html/body/app-root/app-user/div/p-dialog[3]/div/div/div[2]/form/div[4]/div");
+	    private By emptybatchstaffmessage = By.xpath("/html/body/app-root/app-user/div/p-dialog[2]/div/div/div[2]/form/div[5]/div");
+	  private By emptystatusmessage = By.xpath("//div[2]/form/div[6]");
+	  private By emptystatusStaffMessage = By.xpath("/html/body/app-root/app-user/div/p-dialog[2]/div/div/div[2]/form/div[7]");
+
+	  private By AssignStudentdialog1 = By.xpath("/html/body/app-root/app-user/div/p-dialog[2]/div/div");
 	//**************************************************************
 	
 	List<Map<String,String>> dataMapList;
@@ -76,6 +90,8 @@ public class UserPage {
     		driver.findElement(addUserButton).click();
     	if(button.contentEquals("Assign Student"))
     		driver.findElement(assignStudent).click();
+    	if(button.contentEquals("Assign Staff"))
+    		driver.findElement(assignStaff).click();
     	if(button.contentEquals("User Details"))
     		driver.findElement(editButton).click();
      }
@@ -575,7 +591,149 @@ public void addIntoMap(List<WebElement> listPopup) {
     public boolean validateStudentStatusdisplay() {
     	return driver.findElement(popUpStudentRadio).isDisplayed();
     }
+    public void validatePopupStudentEmail()
+    {
+    	driver.findElement(popUpStudentEmail).click();
+    }
+    public void validateAssignStaffPopUp()
+    {
+        driver.switchTo().window(driver.getWindowHandle());
+    }
     
+    //=======================================================================================================// 
+  /* validation of mandatory fields display on assign staff */
+    
+    public String validatestaffemailRole() {
+    	String staffRoleID = driver.findElement(popUpRoleId).getText();
+    	return staffRoleID;
+    }
+    
+    public boolean validatepopUpstaffRoleId() throws InterruptedException {
+    	Thread.sleep(1000);
+    	return driver.findElement(popUpRoleId).isDisplayed();
+
+    }
+    public boolean validatepopUpstaffemail() {
+    	return driver.findElement(popUpStaffEmail).isDisplayed();
+    }
+    
+    public boolean validatepopUpstaffprogram() {
+    	return driver.findElement(popUpStaffprogram).isDisplayed();
+    }
+    
+    public boolean validatepopUpstaffBatch() {
+    	return driver.findElement(popUpStaffBatch).isDisplayed();
+    }
+    
+    public boolean validatepopUpstaffRadio() {
+	    return driver.findElement(popUpStudentRadio).isDisplayed();
+    }
+    public boolean validatepopUpstaffskill() {
+	    return driver.findElement(popUpStaffskill).isDisplayed();
+
+    }
+   //=======================================================================================================// 
+    public void navigateAssignStudent() throws InterruptedException {
+    	driver.findElement(assignStudent).click();
+		//Thread.sleep(3000);
+    }
+    public void AssignSave() throws InterruptedException {
+    	driver.findElement(popUpSaveButton).click();
+    	Thread.sleep(3000);
+		//driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+    }
+  //====Error message display for empty fields on Assign Student Page======//
+    
+    
+    public boolean ValidateEmptyEmail() {
+    	return driver.findElement(emptyemailmessage).isDisplayed();
+    }
+    public boolean ValidateEmptyProgram() {
+    	return driver.findElement(emptyprogmessage).isDisplayed();
+    }
+    
+    public boolean ValidateEmptyBatch() {
+    	return driver.findElement(emptybatchmessage).isDisplayed();
+    }
+    
+    public boolean ValidateEmptyStatus() {
+    	return driver.findElement(emptystatusmessage).isDisplayed();
+    	
+    }
+    
+    
+    //===========Error message display for empty fields on Assign Staff Page============================//
+
+    
+    public void AssignStudentClose() throws InterruptedException {
+    	driver.findElement(popUpCloseButton).click();
+    	Thread.sleep(3000);
+    }
+    public boolean validatestudentframedisappear() throws InterruptedException {
+    	//return driver.findElement(By.className("box")).isDisplayed();
+    	return driver.findElement(AssignStudentdialog1).isDisplayed();
+    }
+    public void ValidateAssignStudentCancel()
+    {
+    	//driver.findElement(AssignStudentdialog)
+    	driver.switchTo().window(driver.getWindowHandle());
+    }
+    public void AssignStudentCancel() throws InterruptedException {
+    	driver.findElement(popUpCancelButton).click();
+    	Thread.sleep(3000);
+    }
+    public void validatetextofemail()
+    {
+    	Assert.assertTrue(driver.findElement(emptyemailmessage).getText().contains("Student Email id is required"));
+    	
+    }
+    public void navigateAssignStaff() throws InterruptedException {
+    	driver.findElement(assignStaff).click();
+		Thread.sleep(3000);
+    }
+  //===========Error message display for empty fields on Assign Staff Page============================//
+    public boolean ValidateEmptyStaffEmailMessage() {
+    	return driver.findElement(emptyemailstaffmessage).isDisplayed();
+    }
+    
+    public boolean ValidateEmptyStaffProgramMessage() {
+    	return driver.findElement(emptyprogramstaffmessage).isDisplayed();
+    }
+    
+    public boolean ValidateEmptyStaffBatchMessage() {
+    	return driver.findElement(emptybatchstaffmessage).isDisplayed();
+    }
+    
+    public boolean ValidateEmptyStaffStatusMessage() {
+    	return driver.findElement(emptystatusStaffMessage).isDisplayed();
+    }
+    
+    public void InputSkill() {
+    	driver.findElement(popUpStaffskill).sendKeys("JAVA");
+    }
+    public boolean validateDeleteYes() {
+    	return driver.findElement(rowleveldeletePopUpYesBtn).isDisplayed();
+    }
+    
+    public boolean validateDeleteNo() {
+    	return driver.findElement(rowleveldeletePopUpNoBtn).isDisplayed();
+    }
+    public void ClickRowleveldelete() throws InterruptedException
+    {
+    	Thread.sleep(3000);
+    	driver.findElement(rowleveldeleteicon).click();
+    }
+    public void validterowleveldeleteconfirmPopUp() {
+        driver.switchTo().window(driver.getWindowHandle());
+    }
+    
+    public void ConfirmrowleveldeletePopUpNoBtn() throws InterruptedException
+    {
+    	 driver.findElement(rowleveldeletePopUpNoBtn).click();
+    	 Thread.sleep(1000);
+    	 //driver.switchTo( ).alert( ).dismiss();
+
+    }
     
 // **********************************End Sayali*************************************
 }

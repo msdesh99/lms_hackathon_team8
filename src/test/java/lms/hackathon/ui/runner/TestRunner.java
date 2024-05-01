@@ -7,7 +7,7 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 import lms.hackathon.ui.configs.ConfigLoader;
 //@RunWith(Cucumber.class)
-@CucumberOptions(  // tags=("@tag37"),// or @tag19 or @tag20"), //@tag48 or @tag49 or @tag50"),
+@CucumberOptions(   //tags=("@tag63"),// or @tag60"), // or @tag50"), // or @tag50 or @tag51"),// or @tag19 or @tag20"), //@tag48 or @tag49 or @tag50"),
 		            features = "src/test/resources/features",
 					glue = {"lms.hackathon.ui.stepdefinitions"},
 				 // tags= "@LinkedList",
