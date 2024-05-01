@@ -35,8 +35,8 @@ public class Base {
 				ChromeOptions ChromeOpt = new ChromeOptions();
 				ChromeOpt.addArguments("--headless=new");
 			//	System.setProperty("webdriver.chrome.silentOutput","true");
-				driver = new ChromeDriver();
-				//driver = new ChromeDriver(ChromeOpt);
+				//driver = new ChromeDriver();
+				driver = new ChromeDriver(ChromeOpt);
 			} else if (browser.equalsIgnoreCase("safari")) {
 				LoggerLoad.info("Testing on safari");
 				driver = new SafariDriver();

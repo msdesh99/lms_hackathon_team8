@@ -12,6 +12,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import lms.hackathon.ui.utilities.FilloExcel;
 
@@ -30,8 +31,29 @@ public class UserPage {
     private By errorMessage = By.xpath("//div[contains(@class,'transitionMessages')]//mat-error");
 	private By closeIcon = By.xpath("//div[contains(@class,'header-icons')]//span");
 	private List<String> popupTextBox ;
+	private Map<String,String> popupMap ;
+
 	
 	private By editButton = By.xpath("//div[@class='action']//button[contains(@class,'p-button-success')]");
+	
+	// ******************By Sayali**********************************
+	private By popUpCancelButton = By.xpath("//button[@label='Cancel']");
+	private By popUpSaveButton = By.xpath("//button[@label='Save']");
+	private By popUpCloseButton = By.xpath("//span[contains(@class,'p-dialog-header-close-icon')]");
+	private By popUpRoleId = By.xpath("//input[@id='roleId']");
+	private By popUpStudentEmail = By.xpath("//div//label[text()='Student Email Id']//..//div[@role='button']");
+	private By popUpStaffEmail = By.xpath("//*[@id=\"userId\"]/div");
+	private By popUpStaffEmailClick = By.xpath("//*[@id=\"userId\"]/div/div[2]/span");
+	private By popUpStaffprogram = By.xpath("//*[@id=\"programName\"]/div");
+	private By popUpStaffBatch = By.xpath("//div[2]/form/div[5]");
+	private By popUpemailplaceholder = By.xpath("//span[@class='ng-tns-c101-99 p-dropdown-label p-inputtext p-placeholder ng-star-inserted']");
+	private By popUpStudentProgram = By.xpath("//input[@id='programName']");
+	private By popUpStudentBatch = By.xpath("//input[@id='batchName']");
+	private By popUpStudentRadio = By.xpath("//div[@class='radio']");
+	private By popUpStaffskill = By.xpath("//input[@id='skillName']");
+    
+	
+	//**************************************************************
 	
 	List<Map<String,String>> dataMapList;
 	Map<String,String> dataMap = new HashMap<String,String>();
@@ -60,6 +82,37 @@ public class UserPage {
     public String validate() {
     	return driver.findElement(By.className("box")).getText();
     }
+    public Map<String,String> isPopUpDisplayed(String runType){
+        driver.switchTo().window(driver.getWindowHandle());      
+	    List<WebElement> popupList = driver.findElements(addUserPopupfields);
+	    List<WebElement> popupBtn = driver.findElements(popUpButton);
+	    List<WebElement> popupDrop = driver.findElements(popupDropdown);
+	    
+        popupMap = new HashMap<String,String>();
+        if(runType.contains("userdetailsfields"))
+              addIntoMap(popupList);
+	   addIntoMap(popupDrop);
+	    popupMap.put(driver.findElement(emailField).getAttribute("placeholder"),
+	    		driver.findElement(emailField).isDisplayed()?"true":"false");
+	    addIntoMap(popupBtn);
+        
+	    popupMap.put(driver.findElement(closeIcon).getAttribute("placeholder"),
+	    		driver.findElement(emailField).isDisplayed()?"true":"false");
+	    popupMap.put(driver.findElement(closeIcon).getText(),
+	    		driver.findElement(closeIcon).isDisplayed()?"true":"false");
+	    return popupMap;
+	
+}	
+    
+public void addIntoMap(List<WebElement> listPopup) {
+	 for(WebElement textbox: listPopup) {
+    	popupMap.put(textbox.getText(), 
+    			textbox.isDisplayed()?"true":"false");
+    	//System.out.println("add: "+textbox.getText()+"dis: "+textbox.isDisplayed());
+    }    	 
+}
+
+/*
     public List<String> validatePopUp() {
         driver.switchTo().window(driver.getWindowHandle());
     
@@ -80,11 +133,29 @@ public class UserPage {
     	
     }	
     public void addIntoList(List<WebElement> listPopup) {
-    	 for(WebElement textbox: listPopup) {
- 	    	popupTextBox.add(textbox.getText());
- 	    	System.out.println("add: "+textbox.getText());
- 	    }    	 
+   	 for(WebElement textbox: listPopup) {
+	    	popupTextBox.add(textbox.getText());
+	    	System.out.println("add: "+textbox.getText());
+	    }    	 
+   }
+    */
+    public Map<String,String> isTextBoxedisplay(){
+    	driver.switchTo().window(driver.getWindowHandle());
+        List<WebElement> textBoxList = driver.findElements(textBoxes);
+       // popupTextBox = new ArrayList<String>();
+        popupMap = new HashMap<String,String>();
+
+
+        for(WebElement box: textBoxList) {
+        	popupMap.put(box.getAttribute("data-placeholder"),
+        			box.isDisplayed()?"true":"false");
+ 	    	//popupTextBox.add(box.getAttribute("data-placeholder"));
+ 	    	//System.out.println("Is textBox Display: "+box.getAttribute("data-placeholder")+" : "+
+ 	    	//box.isDisplayed());
+        }
+        return popupMap;
     }
+    /*
     public List<String> validateTextBoxes(){
     	driver.switchTo().window(driver.getWindowHandle());
         List<WebElement> textBoxList = driver.findElements(textBoxes);
@@ -95,7 +166,7 @@ public class UserPage {
  	    	System.out.println("Is textBox: "+box.getAttribute("data-placeholder")+" : "+box.getTagName());
         }
         return popupTextBox;
-    }
+    }*/
     public void clickClose() {
     	driver.findElement(closeIcon).click();   	
     }
@@ -108,7 +179,7 @@ public class UserPage {
     		//validateTextField(dataMap);
        }		
  
-       else if(runType.contains("user mandatory fields")) {
+       else if(runType.matches("user mandatory fields.*")) {
     	   
     	   String fileName = System.getProperty("user.dir")+"/src/test/resources/testdata/usertestdata.xlsx";
     	   String sheetName ="UserSheet";
@@ -122,7 +193,33 @@ public class UserPage {
     	   Thread.sleep(1000);
     	   
     	   clickSubmit(actionType);
-       }
+          // validateTextField(dataMap);
+
+    	//  WebElement activeElement = driver.switchTo().activeElement();
+    	  //driver.switchTo().window(driver.getWindowHandle());
+    	/*   Thread.sleep(1000);
+    	  WebElement ele = driver.switchTo().activeElement();
+	    	 System.out.println("active ele: "+ ele.getText()); //+" id: "+ele.getAttribute("id")+"tag : "+ele.getTagName());
+              String[] lines = ele.getText().split("\\r?\\n");
+	    	 System.out.println("arr leng: "+lines.length);
+	    	 for(String msg: lines) {
+	    		 if(msg.matches("Failed.*")) 
+	    			 System.out.println("msg: "+ msg);
+	    		 else if(msg.matches("Success.*"))
+    			    System.out.println("msg: "+ msg);
+*/
+	    		 
+	    	 }
+    	  //List<WebElement> allEle = driver.findElements(By.tagName("button"));
+    	  //System.out.println("butt cont: "+allEle.size());
+    	    // for(WebElement ele: allEle){
+    	    	// System.out.println("ele: "+ ele.getText()+" id: "+ele.getAttribute("id")+"tag : "+ele.getTagName());
+    	    // }
+     	 // System.out.println("Error Message: "+ activeElement.);
+     	  //System.out.println(activeElement.getTagName()+ "text: "+ activeElement.getText());
+     	  //System.out.println("att: "+activeElement.getAttribute("value"));
+
+       
        else if(runType.contains("invalid data")) {
     	   
     	   String fileName = System.getProperty("user.dir")+"/src/test/resources/testdata/usertestdata.xlsx";
@@ -136,8 +233,8 @@ public class UserPage {
     	   sendDropDown(dataMap);
     	   Thread.sleep(1000);
     	   
-    	//  clickSubmit(actionType);
-    	  Thread.sleep(2000);
+    	  clickSubmit(actionType);
+    	  Thread.sleep(1000);
     	  WebElement activeElement = driver.switchTo().activeElement();
     	  System.out.println("Error Message: "+ activeElement.getAriaRole() );
     	  System.out.println(activeElement.getTagName()+ "text: "+ activeElement.getText());
@@ -187,11 +284,18 @@ public class UserPage {
            	        	String newValue = "abssssd@gmail.com";
            	        	textBox.clear();
            	        	textBox.sendKeys(newValue);
+           	        	
         		   }
-        		   Thread.sleep(1000);
+        		   Thread.sleep(3000);
 
-        		   clickSubmit(actionType);    
-            	
+        		   clickSubmit(actionType);  
+        		   if(runType.contains("update optional with email")) {
+        			   String actual[] = getActualMessage();
+        			 	
+        		    	System.out.println("Expected Message: "+ dataMap.get("message"));
+        		    	System.out.println("Actual Detail Message : "+ actual[1]);
+        		    	Assert.assertTrue(("Failed").matches(".*"+actual[0]+".*"));
+        		   }
         		    Thread.sleep(1000);
             		clickClose();
             		//selectEditUser();
@@ -232,23 +336,57 @@ public class UserPage {
        	}
     	
     }
-    public void validateAddUser() {
+    public String[] getActualMessage() throws InterruptedException {
+    	//String messageHeading;
+    	//String actualMessage;
+    	   Thread.sleep(1000);
+    	  // Successful
+    	   //User Added Successfully
+    	WebElement ele = driver.switchTo().activeElement();
+	    	// System.out.println("active ele: "+ ele.getText()); //+" id: "+ele.getAttribute("id")+"tag : "+ele.getTagName());
+             String[] actMsg = new String[2];
+	    	 String[] lines = ele.getText().split("\\r?\\n");
+	    	// System.out.println("arr leng: "+lines.length);
+	    	 for(String msg: lines) {
+	    		 if(msg.matches("Failed") || msg.matches("Successful")) {
+	    			// System.out.println("msg: "+ msg);
+	    			// messageHeading = msg;
+	    			 actMsg[0]= msg;
+	    		 }
+	    		 if(msg.matches("Failed.*") || msg.matches(".*Success.*")) {
+	    			 //System.out.println("msg: "+ msg);
+	    			 //actualMessage = msg;
+	    			 actMsg[1] = msg;
+	    		 }
+	    		/* else if(msg.matches("Success.*"))
+			    System.out.println("msg: "+ msg);
+	  			return msg;*/
+	    	 }	 
+         return actMsg;			
+    }
+    public void validateAddUser() throws InterruptedException {
+    	String actual[] = getActualMessage();
+ 	
     	System.out.println("Expected Message: "+ dataMap.get("message"));
-    	System.out.println("first NAme: "+ dataMap.get("First name"));
-    	String firstName = dataMap.get("First name");
+    	System.out.println("Actual Detail Message : "+ actual[1]);
+    	Assert.assertTrue(dataMap.get("message").matches(".*"+actual[0]+".*"));
     	
-    	if(firstName.matches("134")) {
+    	//System.out.println("first NAme: "+ dataMap.get("First name"));
+    	//String firstName = dataMap.get("First name");
+    	
+    	if(dataMap.get("First name").matches("134")) {
     	   System.out.println("Expected Message: userFirstName must contain two or more alphabets only");
     	   System.out.println("Actual Message: ");
 
     	}   
-    	if(firstName.matches("13##")) {
+    	if(dataMap.get("First name").matches("13##")) {
      	   System.out.println("Expected Message: userFirstName must contain two or more alphabets only");
  	   System.out.println("Actual Message: ");}
-
-
-
     }
+    public void validateUpdateInvalidData() {
+		Assert.assertTrue(validate().matches(".*Manage User.*"));
+    }
+
   /*  
     public void sendDataFromMap(Map<String,String> dataMap, String blankField) throws InterruptedException {
     	List<WebElement> textBoxList = driver.findElements(textBoxes);
@@ -286,7 +424,7 @@ public class UserPage {
     	for(WebElement inputField: textBoxList) {
     		inputField.clear();
     		String placeHolderField = inputField.getAttribute("data-placeholder");
-    		System.out.println("send da: "+ dataMap.get(placeHolderField));
+    		//System.out.println("send da: "+ dataMap.get(placeHolderField));
     	 if(!(dataMap.get(placeHolderField)==null)) {
     		inputField.sendKeys(dataMap.get(placeHolderField));
     	 }	
@@ -361,9 +499,16 @@ public class UserPage {
  
     public void validateAllTextFieldForError() {
     	List<WebElement> errorList = driver.findElements(errorMessage);
-    	for(WebElement errorEle: errorList)
-    	   System.out.println("Actual Error: "+errorEle.getText());
-    	System.out.println("Expected Error: "+dataMap.get("message"));
+    	for(WebElement errorEle: errorList) {
+        	String color = errorEle.getCssValue("color").trim();
+          
+            Assert.assertTrue(errorEle.getText().matches(".*is required.*"));
+            //Assert.assertTrue(("#f44336").matches(Color.fromString(color).asHex()));
+
+
+    	  System.out.println("Actual Error: "+errorEle.getText());
+    	//System.out.println("Expected Error: "+dataMap.get("message"));
+    	}
     } 
     public void validateTextField(Map<String,String> dataMap) {
     	WebElement error = driver.findElement(errorMessage);
@@ -371,16 +516,66 @@ public class UserPage {
     	
     	System.out.println("Expected Error: "+dataMap.get("message")+ " Actual Error: "+error.getText());
     	System.out.println("Expected Text Color: "+dataMap.get("text color") +" Actual Color: "+ Color.fromString(color).asHex());
+       // Assert.assertTrue(dataMap.get("message").matches(error.getText()));
+        Assert.assertTrue(dataMap.get("message").matches(".*is required.*"));
 
+        Assert.assertTrue(dataMap.get("text color").matches(Color.fromString(color).asHex()));
     }
-    
+   
    
     public WebElement callDriverWait(By locator) {
     	return new WebDriverWait(driver, Duration.ofSeconds(6))
     			.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
+   //*********************By Sayali******************************
     
+    public void validateAssignStudentPopUp()
+    {
+        //driver.switchTo().window(driver.getWindowHandle());
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(90));
+    }
 
-	 
+ //======================Validtion for display of Close/Save/Cancel on Assign student and staff========================
+    
+    public boolean validatePopUpSavebtn() {
+    	return driver.findElement(popUpSaveButton).isDisplayed();
+    }
+    
+    public boolean validatePopUpClosebtn() {
+         return driver.findElement(popUpCloseButton).isDisplayed();	
+    }
+    
+    public boolean validatePopUpCancelbtn() {
+    	return driver.findElement(popUpCancelButton).isDisplayed();
+    }
+    //=======================================================================================//
+    public boolean validateAssignStudentRadio() {
+    	return driver.findElement(popUpStudentRadio).isDisplayed();
+    	
+    }
+    //=================Admin should see User Role as R03 with other mandatory fields====================================
+    public void validateAssignStudentPopUpFields() {
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(90));
+    }
+    
+    public boolean validateStudentRoleIddisplay() {
+    	return  driver.findElement(popUpRoleId).isDisplayed(); 	
+    }
+    
+    public boolean validateStudentEmaildisplay() {
+    	return driver.findElement(popUpStudentEmail).isDisplayed();
+    }
+    public boolean validateStudentProgramdisplay() {
+    	return driver.findElement(popUpStudentProgram).isDisplayed();
 
+    }
+    public boolean validateStudentBatchdisplay() {
+    	return driver.findElement(popUpStudentBatch).isDisplayed();
+    }
+    public boolean validateStudentStatusdisplay() {
+    	return driver.findElement(popUpStudentRadio).isDisplayed();
+    }
+    
+    
+// **********************************End Sayali*************************************
 }

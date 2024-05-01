@@ -55,6 +55,7 @@ public class UserSteps {
 	public void admin_should_able_to_see_popup(String validateButton) {
 	    
 	}
+	/*
 	@Then("Admin should able to see all {string}")
 	public void admin_should_able_to_see_all(String listType, DataTable dataTable) {
 		List<String> expectedList = dataTable.asList(String.class);
@@ -72,7 +73,7 @@ public class UserSteps {
 		for(String absent: absentText)
 				System.out.println("absent: "+absent);
 		//Assert.assertEquals(absentText.size(),0,"Some Fields are missing in popup window");		
-	}
+	}*/
 	@Given("Admin is on  {string} popup window")
 	public void admin_is_on_popup_window(String button) {
 		try {
@@ -83,7 +84,7 @@ public class UserSteps {
 	}
 	@When("Admin enters {string} in the form and clicks on {string} button")
 	public void admin_enters_in_the_form_and_clicks_on_button(String runType, String actionType) throws InterruptedException {
-		System.out.println("runty: "+runType+ " mat: "+ runType.matches("update.*"));
+		//System.out.println("runty: "+runType+ " mat: "+ runType.matches("update.*"));
 		if(runType.matches("update.*")) 
 			userPage.updateUser(runType,actionType);
 		else
@@ -96,36 +97,47 @@ public class UserSteps {
 	   String fileName = System.getProperty("user.dir")+"/src/test/resources/testdata/usertestdata.xlsx";
   	   String sheetName ="UserSheet";
   	   Map<String,String> dataMap = new HashMap<String,String>(); 	
-  	   dataMap = FilloExcel.getSingleData(fileName,sheetName,runType);
+  	   if(runType.contains("userdetailsfields")|| 
+  			   runType.contains("dropdowns"))
+  	   dataMap = FilloExcel.getSingleData(fileName,sheetName,"userdetailsfields");
 
   	   List<String> actualList = new ArrayList<String>();
   	   //List<String> dropList = new ArrayList<String>();
-
-    	 if(runType.contains("userdetailsfields")) {
-              actualList =  userPage.validatePopUp();
-              //actualList.addAll(dropList);
+       Map<String,String> actualMap = new HashMap<String,String>();
+    	 if(runType.contains("userdetailsfields") ||
+    			 runType.contains("dropdowns")) {
+             // actualList =  userPage.validatePopUp();
+              actualMap = userPage.isPopUpDisplayed(runType);
     	 }       	 
-    	 else actualList = userPage.validateTextBoxes();	
-
-  	   for(String box: actualList){
+    	// else actualList = userPage.validateTextBoxes();
+    	 else actualMap = userPage.isTextBoxedisplay();
+        for(Map.Entry<String, String> map: actualMap.entrySet()) {
+          if(map.getKey()!=null)	{
+ 	    	//System.out.println(runType +" : Is Display: "+ map.getKey() +" : "+map.getValue());
+           
+        	Assert.assertTrue(map.getValue().equalsIgnoreCase("true"));
+          }	
+        }
+    	 
+  	  /* for(String box: actualList){
   		  // System.out.println("act: "+box);
   		   //System.out.println("expe: "+ dataMap.get(box));
 	    System.out.println("Actual: "+box +" Expected: "+dataMap.get(box));
-
+        
   	   Assert.assertTrue(box.equalsIgnoreCase(dataMap.get(box)));
-  	   }
+  	   }*/
   	   Thread.sleep(1000);
 		//userPage.addUser(runType,"NoAction");
 	}
 
 
 	@Then("Admin gets message {string}")
-	public void admin_gets_message(String expectedmessage) {
+	public void admin_gets_message(String expectedmessage) throws InterruptedException {
 	        userPage.validateAddUser();
 	}
 
 	@Then("Admin can see the User details popup disappears without adding any user")
-	public void admin_can_see_the_user_details_popup_disappears_without_adding_any_user() {
+	public void admin_can_see_the_user_details_popup_disappears_without_adding_any_user() throws InterruptedException {
 		userPage.validateAddUser();
 	   
 	}
@@ -134,7 +146,7 @@ public class UserSteps {
 		//userPage.validateTextField();
 	}
 
-	@When("Admin clicks Cancel\\/Close\\(X) Icon on User Details form")
+	@When("Admin clicks Cancel Close Icon on User Details form")
 	public void admin_clicks_cancel_close_x_icon_on_user_details_form() {
 		userPage.clickClose();
 	  
@@ -142,6 +154,9 @@ public class UserSteps {
 
 	@Then("User Details popup window should be closed without saving")
 	public void user_details_popup_window_should_be_closed_without_saving() {
+		System.out.println(userPage.validate());	
+		Assert.assertTrue(userPage.validate().matches(".*Manage User.*"));
+
 	}
 
 	@When("Admin clicks on the edit icon")
@@ -154,7 +169,9 @@ public class UserSteps {
 	   
 	}
 	@Then("Admin gets error message and user is not created")
-	public void admin_gets_error_message_and_user_is_not_created() {
+	public void admin_gets_error_message_and_user_is_not_created() throws InterruptedException {
+		//userPage.validateAddUser();
+
 	   
 	}
 	@Then("The newly added user should be present in the data table in Manage User page")
@@ -162,9 +179,41 @@ public class UserSteps {
 	}
 	
 	@Then("Admin gets message {string} and see the updated values in data table")
-	public void admin_gets_message_and_see_the_updated_values_in_data_table(String string) {
+	public void admin_gets_message_and_see_the_updated_values_in_data_table(String string) throws InterruptedException {
 		userPage.validateAddUser();
+		
+	}
+	@Then("Admin gets message {string} and see the old values in data table")
+	public void admin_gets_message_and_see_the_old_values_in_data_table(String string) throws InterruptedException {
+		userPage.validateUpdateInvalidData();
+
+ 
 	}
 
+// ******************************** By Sayali********************************
+	@Then("Admin should able to see Assign Student popup")
+	public void admin_should_able_to_see_assign_student_popup() {
+		userPage.validateAssignStudentPopUp();
+		Assert.assertEquals(userPage.validatePopUpSavebtn(), true);
+	    Assert.assertEquals(userPage.validatePopUpClosebtn(), true);
+	    Assert.assertEquals(userPage.validatePopUpCancelbtn(), true);	
+	}
+	
+	@Then("Admin should see two radio button for Status")
+	public void admin_should_see_two_radio_button_for_status() {
+	    Assert.assertEquals(userPage.validateAssignStudentRadio(), true);
+	}
+	@Then("Admin should see User Role as R03 with other mandatory fields")
+	public void admin_should_see_user_role_as_r03_with_other_mandatory_fields(){
+		userPage.validateAssignStudentPopUp();
+	      // userPage.validateAssignStudentPopUpFields();
+			Assert.assertEquals(userPage.validateStudentRoleIddisplay(), true);
+			Assert.assertEquals(userPage.validateStudentEmaildisplay(), true);
+			Assert.assertEquals(userPage.validateStudentProgramdisplay(), true);
+			Assert.assertEquals(userPage.validateStudentBatchdisplay(), true);
+			Assert.assertEquals(userPage.validateStudentStatusdisplay(), true);			
+	}
+
+	
 
 }

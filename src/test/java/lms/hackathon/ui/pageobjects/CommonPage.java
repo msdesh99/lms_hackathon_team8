@@ -3,7 +3,8 @@ package lms.hackathon.ui.pageobjects;
 	import java.util.ArrayList;
 	import java.util.List;
 
-	import org.openqa.selenium.By;
+import org.junit.Assert;
+import org.openqa.selenium.By;
 	import org.openqa.selenium.WebDriver;
 	import org.openqa.selenium.WebElement;
 	import org.openqa.selenium.support.FindBy;
@@ -39,10 +40,10 @@ package lms.hackathon.ui.pageobjects;
 			driver.findElement(By.xpath("//table[@role='grid']//th[(contains(@class,'sortable') "
 					+ "and contains(text(),'"+fieldName+"'))]")).click();
 		// beforeSorting();
-		 afterSorting(column);
+		 afterSorting(column,fieldName);
 	 }	 
 		 
-	 public void afterSorting(int column) throws InterruptedException {
+	 public void afterSorting(int column, String fieldName) throws InterruptedException {
 		 
 			 columnContentList =  new ArrayList<String>(); 
 			   List<WebElement> pageList = driver.findElements(pages);
@@ -68,11 +69,11 @@ package lms.hackathon.ui.pageobjects;
 			   }
 		}
 		    afterSortingList = columnContentList;
-	        displayList(afterSortingList);
+	        displayList(afterSortingList, fieldName);
 		}
     
 	 
-	public void displayList(List<String> displayList) {
+	public void displayList(List<String> displayList, String fieldName) {
 		int no=0;
 	    for(String colText: displayList) {
 	   	      no++;
@@ -80,6 +81,10 @@ package lms.hackathon.ui.pageobjects;
 			 }
 	         System.out.println("Assertions: Is in Order: "+ Ordering.natural().isOrdered(displayList));
 			 System.out.println("====End====");	
+			 if(!Ordering.natural().isOrdered(displayList)) {
+				 System.out.println("Sorting of "+fieldName+" Not in Proper Order");
+			 }
+			 Assert.assertTrue(Ordering.natural().isOrdered(displayList));
 	}
 		
 	 public List<String> checkContent(int colNumber) throws InterruptedException {
