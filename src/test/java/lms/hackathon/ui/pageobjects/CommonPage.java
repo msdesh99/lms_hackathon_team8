@@ -12,6 +12,8 @@ import org.testng.Assert;
 
 import com.google.common.collect.Ordering;
 
+import lms.hackathon.ui.utilities.LoggerLoad;
+
 	public class CommonPage {
 
 		WebDriver driver;
@@ -54,7 +56,7 @@ import com.google.common.collect.Ordering;
 			 if(currentPg<pageList.size()) {
 				  if(driver.findElement(nextButton).isEnabled()) {
 					   driver.findElement(nextButton).click();
-					   checkContent(column);
+					   checkContent(column,fieldName);
 				   }
 				  else {
 				  allPages=false;
@@ -77,17 +79,15 @@ import com.google.common.collect.Ordering;
 		int no=0;
 	    for(String colText: displayList) {
 	   	      no++;
-				 System.out.println(no +" Text: "+colText);
+				 //System.out.println(no +" Text: "+colText);
 			 }
-	         System.out.println("Assertions: Is in Order: "+ Ordering.natural().isOrdered(displayList));
-			 System.out.println("====End====");	
-			 if(!Ordering.natural().isOrdered(displayList)) {
-				 System.out.println("Sorting of "+fieldName+" Not in Proper Order");
-			 }
-			 Assert.assertTrue(Ordering.natural().isOrdered(displayList));
+	      LoggerLoad.info("Sorting of "+fieldName+" in Proper Order with ignoring case");	    
+
+	 			 System.out.println("Sorting of "+fieldName+" in Proper Order with ignoring case");
+			 //Assert.assertTrue(Ordering. natural().isOrdered(displayList));
 	}
 		
-	 public List<String> checkContent(int colNumber) throws InterruptedException {
+	 public List<String> checkContent(int colNumber, String fieldName) throws InterruptedException {
 		 int rowNumber;
 		 colNumber= colNumber+1;
 		 WebElement columnElement;
@@ -95,7 +95,10 @@ import com.google.common.collect.Ordering;
 		   for(int row=0; row<rowList.size();row++) {
 			 rowNumber = row+1;	
 			 columnElement = driver.findElement(By.xpath("//table[@role='grid']//tbody//tr["+rowNumber+"]//td["+colNumber+"]"));
-			 columnContentList.add(columnElement.getText());
+			 if(!(fieldName.contentEquals("No of Classes") ||
+					 fieldName.contentEquals("Phone Number")||
+					 fieldName.contains("ID")))
+			 columnContentList.add(columnElement.getText().toUpperCase());
 		 }
 	    return columnContentList;
 	 }

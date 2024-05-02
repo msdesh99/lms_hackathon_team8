@@ -15,6 +15,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import lms.hackathon.ui.pageobjects.UserPage;
 import lms.hackathon.ui.utilities.FilloExcel;
+import lms.hackathon.ui.utilities.LoggerLoad;
 import lms.hackathon.ui.utilities.TestContextSetUp;
 
 public class UserSteps {
@@ -39,7 +40,7 @@ public class UserSteps {
 	}
 	@Then("Admin Should see a heading Manage User")
 	public void admin_should_see_a_heading_manage_user() {
-		System.out.println(userPage.validate());	   
+		LoggerLoad.info(userPage.validate());	   
 	}
 	
 	@Given("Admin is on Manage User page")
@@ -121,7 +122,7 @@ public class UserSteps {
 
 	@Then("User Details popup window should be closed without saving")
 	public void user_details_popup_window_should_be_closed_without_saving() {
-		System.out.println(userPage.validate());	
+		LoggerLoad.info(userPage.validate());	
 		Assert.assertTrue(userPage.validate().matches(".*Manage User.*"));
 
 	}

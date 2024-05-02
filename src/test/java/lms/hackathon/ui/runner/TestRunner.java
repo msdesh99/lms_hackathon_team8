@@ -7,13 +7,11 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 import lms.hackathon.ui.configs.ConfigLoader;
 //@RunWith(Cucumber.class)
-@CucumberOptions(   //tags=("@tag48"),// or @tag60"), // or @tag50"), // or @tag50 or @tag51"),// or @tag19 or @tag20"), //@tag48 or @tag49 or @tag50"),
+@CucumberOptions(   
 		            features = "src/test/resources/features",
 					glue = {"lms.hackathon.ui.stepdefinitions"},
-				 // tags= "@LinkedList",
 					plugin = {"pretty", "html:target/cucumber-Reports.html" , "json:target/cucumber.json",
 							"junit:target/Cucumber.xml",
-							//"io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm",
 							"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
 							"rerun:target/failed_scenarios.txt"},
 					//monochrome = true,

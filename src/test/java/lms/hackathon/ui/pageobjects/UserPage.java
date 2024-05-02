@@ -15,6 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import lms.hackathon.ui.utilities.FilloExcel;
+import lms.hackathon.ui.utilities.LoggerLoad;
 
 public class UserPage {
 	private WebDriver driver;
@@ -231,7 +232,7 @@ public void addIntoMap(List<WebElement> listPopup) {
            	        	textBox.sendKeys(newValue);
            	        	
         		   }
-        		   Thread.sleep(3000);
+        		   Thread.sleep(1000);
 
         		   clickSubmit(actionType);  
         		   if(runType.contains("update optional with email")) {
@@ -240,6 +241,9 @@ public void addIntoMap(List<WebElement> listPopup) {
         		    	System.out.println("Expected Message: "+ dataMap.get("message"));
         		    	System.out.println("Actual Detail Message : "+ actual[1]);
         		    	Assert.assertTrue(("Failed").matches(".*"+actual[0]+".*"));
+        LoggerLoad.info("Expected Message: "+ dataMap.get("message")+
+        		"Actual Detail Message : "+ actual[1]);	    
+
         		   }
         		    Thread.sleep(1000);
             		clickClose();
@@ -299,15 +303,18 @@ public void addIntoMap(List<WebElement> listPopup) {
     	System.out.println("Expected Message: "+ dataMap.get("message"));
     	System.out.println("Actual Detail Message : "+ actual[1]);
     	Assert.assertTrue(dataMap.get("message").matches(".*"+actual[0]+".*"));
+    	LoggerLoad.info("Expected Message: "+ dataMap.get("message")+
+        		"Actual Detail Message : "+ actual[1]);	    
+
     	
     	if(dataMap.get("First name").matches("134")) {
-    	   System.out.println("Expected Message: userFirstName must contain two or more alphabets only");
-    	   System.out.println("Actual Message: ");
+    	   LoggerLoad.info("Expected Message: userFirstName must contain two or more alphabets only");
+    	   LoggerLoad.info("Actual Message: ");
 
     	}   
     	if(dataMap.get("First name").matches("13##")) {
-     	   System.out.println("Expected Message: userFirstName must contain two or more alphabets only");
- 	   System.out.println("Actual Message: ");}
+    		LoggerLoad.info("Expected Message: userFirstName must contain two or more alphabets only");
+    		LoggerLoad.info("Actual Message: ");}
     }
     public void validateUpdateInvalidData() {
 		Assert.assertTrue(validate().matches(".*Manage User.*"));
@@ -327,7 +334,7 @@ public void addIntoMap(List<WebElement> listPopup) {
     public void getDataFromTextBoxes() {
     	List<WebElement> textBoxList = driver.findElements(textBoxes);
     	for(WebElement inputField: textBoxList) {
-    		System.out.println("field: "+ inputField.getAttribute("data-placeholder")
+    		LoggerLoad.info("field: "+ inputField.getAttribute("data-placeholder")
     		+" value: "+ inputField.getText());
     		
     	}
@@ -371,15 +378,15 @@ public void addIntoMap(List<WebElement> listPopup) {
             //Assert.assertTrue(("#f44336").matches(Color.fromString(color).asHex()));
 
 
-    	  System.out.println("Actual Error: "+errorEle.getText());
+            LoggerLoad.info("Actual Error: "+errorEle.getText());
     	}
     } 
     public void validateTextField(Map<String,String> dataMap) {
     	WebElement error = driver.findElement(errorMessage);
     	String color = error.getCssValue("color").trim();
     	
-    	System.out.println("Expected Error: "+dataMap.get("message")+ " Actual Error: "+error.getText());
-    	System.out.println("Expected Text Color: "+dataMap.get("text color") +" Actual Color: "+ Color.fromString(color).asHex());
+    	LoggerLoad.info("Expected Error: "+dataMap.get("message")+ " Actual Error: "+error.getText());
+    	LoggerLoad.info("Expected Text Color: "+dataMap.get("text color") +" Actual Color: "+ Color.fromString(color).asHex());
         Assert.assertTrue(dataMap.get("message").matches(".*is required.*"));
 
         Assert.assertTrue(dataMap.get("text color").matches(Color.fromString(color).asHex()));

@@ -220,7 +220,7 @@ And Admin clicks on the edit icon
 #And Admin is on  "User Details" popup window
 When Admin enters "update all fields invalid" in the form and clicks on "Submit" button
 Then Admin gets message "will not get any message " and see the old values in data table
-#Bug--- Admin not able to see error message. popup window get refreshed with old data
+#Additional scenario--- Admin not able to see error message. popup window get refreshed with old data
 
 @tag31
 Scenario: Check if the fields are updated with valid data

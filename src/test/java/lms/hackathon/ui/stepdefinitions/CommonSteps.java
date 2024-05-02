@@ -28,8 +28,4 @@ public class CommonSteps {
 		}
 	}
 	
-/*
-	@Then("Admin should see User details are sorted by id")
-	public void admin_should_see_user_details_are_sorted_by_id() {
-}*/
 }
