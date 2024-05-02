@@ -1,6 +1,5 @@
 package lms.hackathon.ui.stepdefinitions;
 
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import lms.hackathon.ui.pageobjects.CommonPage;
@@ -29,8 +28,4 @@ public class CommonSteps {
 		}
 	}
 	
-/*
-	@Then("Admin should see User details are sorted by id")
-	public void admin_should_see_user_details_are_sorted_by_id() {
-}*/
 }

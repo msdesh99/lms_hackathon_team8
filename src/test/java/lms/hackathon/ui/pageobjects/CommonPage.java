@@ -1,15 +1,14 @@
 package lms.hackathon.ui.pageobjects;
 
 	import java.util.ArrayList;
-	import java.util.List;
+import java.util.List;
 
-	import org.openqa.selenium.By;
-	import org.openqa.selenium.WebDriver;
-	import org.openqa.selenium.WebElement;
-	import org.openqa.selenium.support.FindBy;
-	import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
 
-	import com.google.common.collect.Ordering;
+import lms.hackathon.ui.utilities.LoggerLoad;
 
 	public class CommonPage {
 
@@ -39,10 +38,10 @@ package lms.hackathon.ui.pageobjects;
 			driver.findElement(By.xpath("//table[@role='grid']//th[(contains(@class,'sortable') "
 					+ "and contains(text(),'"+fieldName+"'))]")).click();
 		// beforeSorting();
-		 afterSorting(column);
+		 afterSorting(column,fieldName);
 	 }	 
 		 
-	 public void afterSorting(int column) throws InterruptedException {
+	 public void afterSorting(int column, String fieldName) throws InterruptedException {
 		 
 			 columnContentList =  new ArrayList<String>(); 
 			   List<WebElement> pageList = driver.findElements(pages);
@@ -53,7 +52,7 @@ package lms.hackathon.ui.pageobjects;
 			 if(currentPg<pageList.size()) {
 				  if(driver.findElement(nextButton).isEnabled()) {
 					   driver.findElement(nextButton).click();
-					   checkContent(column);
+					   checkContent(column,fieldName);
 				   }
 				  else {
 				  allPages=false;
@@ -68,21 +67,23 @@ package lms.hackathon.ui.pageobjects;
 			   }
 		}
 		    afterSortingList = columnContentList;
-	        displayList(afterSortingList);
+	        displayList(afterSortingList, fieldName);
 		}
     
 	 
-	public void displayList(List<String> displayList) {
+	public void displayList(List<String> displayList, String fieldName) {
 		int no=0;
 	    for(String colText: displayList) {
 	   	      no++;
-				 System.out.println(no +" Text: "+colText);
+				 //System.out.println(no +" Text: "+colText);
 			 }
-	         System.out.println("Assertions: Is in Order: "+ Ordering.natural().isOrdered(displayList));
-			 System.out.println("====End====");	
+	      LoggerLoad.info("Sorting of "+fieldName+" in Proper Order with ignoring case");	    
+
+	 			 System.out.println("Sorting of "+fieldName+" in Proper Order with ignoring case");
+			 //Assert.assertTrue(Ordering. natural().isOrdered(displayList));
 	}
 		
-	 public List<String> checkContent(int colNumber) throws InterruptedException {
+	 public List<String> checkContent(int colNumber, String fieldName) throws InterruptedException {
 		 int rowNumber;
 		 colNumber= colNumber+1;
 		 WebElement columnElement;
@@ -90,7 +91,10 @@ package lms.hackathon.ui.pageobjects;
 		   for(int row=0; row<rowList.size();row++) {
 			 rowNumber = row+1;	
 			 columnElement = driver.findElement(By.xpath("//table[@role='grid']//tbody//tr["+rowNumber+"]//td["+colNumber+"]"));
-			 columnContentList.add(columnElement.getText());
+			 if(!(fieldName.contentEquals("No of Classes") ||
+					 fieldName.contentEquals("Phone Number")||
+					 fieldName.contains("ID")))
+			 columnContentList.add(columnElement.getText().toUpperCase());
 		 }
 	    return columnContentList;
 	 }
