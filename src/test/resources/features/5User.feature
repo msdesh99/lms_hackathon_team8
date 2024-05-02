@@ -293,5 +293,3 @@ Then Admin should see User details are sorted by "Location" column "3"
 #When Admin clicks "Assign Student" button
 #Then Admin should able to see "Assign Student" popup
 
-###############Sayali###########################
-
